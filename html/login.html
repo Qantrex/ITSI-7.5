@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self';
+                   script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net;
+                   style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
+                   img-src 'self' data:;
+                   object-src 'none';
+                   base-uri 'self';
+                   frame-ancestors 'self';">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="bg.js"></script>
+</head>
+
+<body>
+<div id="bg" style="position:absolute;width:100%;height:100%;z-index:-1000;top:0;left:0"></div>
+
+<h1> My First Website </h1>
+
+<h2>Login</h2>
+<form action="login.php" method="post">
+    <label for="user"></label>
+    <input type="text" name="user" placeholder="Username" required>
+    <label for="passw"></label>
+    <input type="password" name="passw" placeholder="Password" required>
+    <button type="submit">Login</button>
+</form>
+
+<h2>Register</h2>
+<form action="register.php" method="post">
+    <label for="user"></label>
+    <input type="text" name="user" placeholder="Username" required>
+    <label for="passw"></label>
+    <input type="password" name="passw" placeholder="Password" required>
+    <label for="farbe"></label>
+    <input type="text" name="farbe" placeholder="Farbe" required>
+    <button type="submit">Register</button>
+</form>
+</body>
+</html>

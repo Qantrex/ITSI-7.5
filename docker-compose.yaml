@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  db:
+    image: mariadb
+    networks:
+      - default
+    environment:
+      MYSQL_ROOT_PASSWORD: supersecure
+      MYSQL_DATABASE: customers
+    volumes:
+      - ./sql-scripts:/docker-entrypoint-initdb.d
+
+  website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - default
+    expose:
+      - "80"
+    volumes:
+      - ./html:/var/www/html
+
+  waf:
+    image: owasp/modsecurity-crs:apache
+    depends_on:
+      - website
+    networks:
+      - default
+    # WAF nur noch intern erreichbar
+    expose:
+      - "8080"
+    environment:
+      BACKEND: "http://website:80"
+      PROXY: "1"
+      PARANOIA: "1"
+      ANOMALY_INBOUND: "10"
+      ANOMALY_OUTBOUND: "5"
+
+  # Neuer Service: Caddy macht nur HTTPS
+  caddy:
+    image: caddy:2-alpine
+    depends_on:
+      - waf
+    networks:
+      - default
+    ports:
+      - "8443:443"      # HTTPS von außen -> Caddy
+    volumes:
+      - ./Caddyfile:/etc/caddy
+
+networks:
+  default: {}

@@ -1,0 +1,8 @@
+{
+    debug
+}
+
+https://localhost {
+    tls internal
+    reverse_proxy http://waf:8080
+}
