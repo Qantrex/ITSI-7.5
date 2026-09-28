@@ -31,8 +31,10 @@ services:
   db:
     image: mariadb
     environment:
-      MYSQL_ROOT_PASSWORD: supersecure
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: customers
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./sql-scripts:/docker-entrypoint-initdb.d
 
@@ -42,6 +44,9 @@ services:
       dockerfile: Dockerfile
     expose:
       - "80"
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./html:/var/www/html
 
@@ -71,6 +76,16 @@ services:
 * **Website** is only reachable via WAF
 * **WAF** is internal-only and enforces OWASP CRS rules
 * **Caddy** is the only public entry point
+* **Credentials** come from a local `.env` file that is not committed. The website connects with its own database user, not `root`
+
+### Run
+
+```bash
+cp .env.example .env   # then set your own passwords
+docker compose up -d --build
+```
+
+Open https://localhost:8443
 
 ---
 
@@ -110,4 +125,3 @@ https://localhost {
 * Forwards all traffic to the WAF
 * Uses **internal TLS certificates** (development/testing)
 
-If needed, I can further reduce this to a **one-page README**, or adapt it to a **school assignment or security concept document**.

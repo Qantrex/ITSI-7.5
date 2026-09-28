@@ -10,7 +10,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 $user = $_SESSION['username'];
 
 try {
-    $conn = new mysqli("db", "root", "supersecure", "customers");
+    $conn = new mysqli("db", getenv("DB_USER"), getenv("DB_PASSWORD"), "customers");
 } catch (mysqli_sql_exception $e) {
     echo "Database error.";
     exit();

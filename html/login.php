@@ -11,7 +11,7 @@ $user  = $_POST['user'];
 $passw = $_POST['passw'];
 
 try {
-    $conn = new mysqli("db", "root", "supersecure", "customers");
+    $conn = new mysqli("db", getenv("DB_USER"), getenv("DB_PASSWORD"), "customers");
 } catch (mysqli_sql_exception $e) {
     echo "Database error.";
     exit();

@@ -6,8 +6,10 @@ services:
     networks:
       - default
     environment:
-      MYSQL_ROOT_PASSWORD: supersecure
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?set DB_ROOT_PASSWORD in .env}
       MYSQL_DATABASE: customers
+      MYSQL_USER: ${DB_USER:?set DB_USER in .env}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
     volumes:
       - ./sql-scripts:/docker-entrypoint-initdb.d
 
@@ -19,6 +21,9 @@ services:
       - default
     expose:
       - "80"
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./html:/var/www/html
 
